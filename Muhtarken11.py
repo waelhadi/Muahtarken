@@ -1,170 +1,3 @@
-import os, sys, time, requests, random
-from colorama import init, Fore, Style
-init(autoreset=True)
-
-# محاولة استيراد pyfiglet للّوغو الكبير
-try:
-    import pyfiglet
-except Exception:
-    try:
-        os.system(f"{sys.executable} -m pip install pyfiglet >/dev/null 2>&1")
-        import pyfiglet
-    except Exception:
-        pyfiglet = None
-
-# ===== إعدادات عامة ===== #
-TEXT          = Fore.WHITE + Style.NORMAL
-TITLE         = Fore.WHITE + Style.BRIGHT
-BAR           = "-" * 78
-
-# ألوان عامّة
-COLOR_NASR        = Fore.YELLOW + Style.BRIGHT          # عنوان اللوحة
-COLOR_SUBTITLE    = Fore.LIGHTRED_EX + Style.BRIGHT     # سطر فرعي
-COLOR_EU_TITLE    = Fore.LIGHTBLACK_EX + Style.BRIGHT   # عنوان قسم البلاغ الأوروبي
-COLOR_BASIC_TITLE = Fore.LIGHTGREEN_EX + Style.BRIGHT   # عنوان قسم البلاغ الأساسي
-
-COLOR_EU_ITEM     = Fore.LIGHTBLACK_EX + Style.BRIGHT   # عناصر البلاغ الأوروبي (رمادي فاتح)
-COLOR_BASIC_ITEM  = Fore.LIGHTBLUE_EX + Style.BRIGHT    # عناصر البلاغ الأساسي (أزرق فاتح)
-
-# تيليجرام المطوّر
-TELEGRAM_HANDLE = "@NASR101"
-
-session = requests.Session()
-soso, loop, tar, x_, ls, sisn = [], [], [], [], [], []
-
-
-def clear_screen():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-
-def print_header():
-    clear_screen()
-
-    # لوغو TIKTOK REPORT كبير
-    if pyfiglet is not None:
-        logo = pyfiglet.figlet_format("TIKTOK REPORT", font="slant")
-        for line in logo.splitlines():
-            print(Fore.MAGENTA + Style.BRIGHT + line + Style.RESET_ALL)
-    else:
-        # بديل بسيط لو ما توفر pyfiglet
-        print(Fore.MAGENTA + Style.BRIGHT + "[ TIKTOK REPORT PANEL ]" + Style.RESET_ALL)
-
-    # عنوان اللوحة + وصف + تليجرام (إنكليزي، نظام البلاغات + الكور)
-    print(COLOR_NASR + "================= NASR – TikTok Legal Panel =================" + Style.RESET_ALL)
-    print(
-        COLOR_SUBTITLE
-        + "      TikTok Legal Report System – Core Engine (NASR Module)  "
-        + Style.RESET_ALL
-    )
-    print(TITLE + f"Developer / Telegram: {TELEGRAM_HANDLE}" + Style.RESET_ALL)
-    print(TEXT + BAR + Style.RESET_ALL)
-
-
-def print_eu_menu():
-    """عرض قائمة البلاغات الأوروبية (1 → 32)"""
-    print()
-    print(COLOR_EU_TITLE + "القسم الأول: البلاغ الأوروبي (1 → 32)" + Style.RESET_ALL)
-    print(TEXT + BAR + Style.RESET_ALL)
-
-    group_eu = [
-        (1,  "المحتوى عبارة عن مادة اعتداء جنسي على الأطفال"),
-        (2,  "عرض توريد مواد الاعتداء الجنسي على الأطفال وبيعها وتوزيعها"),
-        (3,  "المحتوى المتعلق باستمالة طفل أو إغواءه جنسيًا"),
-        (4,  "التهديد بالعنف/التحريض على ارتكاب جريمة (جرائم) إرهابية"),
-        (5,  "المحتوى المتعلق بالتجنيد والتمويل ودعم الإرهاب"),
-        (6,  "تعليمات أو تدريب حول كيفية صنع المتفجرات/الأسلحة/الأسلحة النارية"),
-        (7,  "خطاب الكراهية غير القانوني"),
-        (8,  "تصوير العنف بشع المنظر"),
-        (9,  "المشاركة في منظمة إجرامية"),
-        (10, "انتهاكات الخصوصية القائمة على الصور"),
-        (11, "انتحال الهوية بشكل غير قانوني"),
-        (12, "انتهاكات أخرى للخصوصية"),
-        (13, "مشاركة الصور الحميمة أو الخاصة دون موافقة"),
-        (14, "المحتوى المرتبط بالاتجار بالبشر"),
-        (15, "الترويج للدعارة/الاستدراج"),
-        (16, "إنتاج/بيع/توزيع المخدرات غير المشروعة"),
-        (17, "الترويج للصيد الجائر أو الاتجار غير المشروع بالأحياء البرية"),
-        (18, "الاتجار غير المشروع بالأسلحة"),
-        (19, "سلع غير قانونية أخرى"),
-        (20, "المضايقات أو التهديدات"),
-        (21, "التشهير"),
-        (22, "خرق قانون المستهلك"),
-        (23, "منتجات/بضائع غير آمنة أو خطرة"),
-        (24, "التضليل الجنائي"),
-        (25, "ازدراء المحكمة أو خرق أمر المحكمة أو التصريح غير القانوني"),
-        (26, "التشجيع أو التعليمات على الانتحار"),
-        (27, "الاحتيال"),
-        (28, "غسيل الأموال"),
-        (29, "الابتزاز/الرشوة"),
-        (30, "جرائم الأمن القومي (خيانة، تجسس، تخريب…)"),
-        (31, "محتوى غير قانوني آخر"),
-        (32, "عشوائي قانون أوروبي"),
-    ]
-
-    for n, label in group_eu:
-        print(COLOR_EU_ITEM + f"{n:>2} | " + TEXT + label + Style.RESET_ALL)
-    print()
-
-
-def print_basic_menu():
-    """عرض قائمة البلاغات الأساسية في التطبيق (33 → 63)"""
-    print()
-    print(COLOR_BASIC_TITLE + "القسم الثاني: البلاغ الأساسي في التطبيق (33 → 63)" + Style.RESET_ALL)
-    print(TEXT + BAR + Style.RESET_ALL)
-
-    group_basic = [
-        (33, "بلاغ النسر (NASR MIX)"),
-        (34, "الكلام الذي يحض على الكراهية والسلوكيات البغيضة"),
-        (35, "لقد تعرضت بنفسي للتنمر أو المضايقة"),
-        (36, "تعرض شخص أعرفه للتنمر أو المضايقة"),
-        (37, "تعرض أحد المشاهير/المسؤولين للتنمر أو المضايقة"),
-        (38, "تعرض آخرون للتنمر أو المضايقة"),
-        (39, "الانتحار وإيذاء النفس"),
-        (40, "اضطرابات الأكل وصورة الجسم غير الصحية"),
-        (41, "الأنشطة والتحديات الخطرة"),
-        (42, "النشاط الجنسي للشباب والاستدراج والاستغلال"),
-        (43, "السلوك الموحي جنسيًا بواسطة الشباب"),
-        (44, "النشاط الجنسي للبالغين والخدمات الجنسية"),
-        (45, "عُري البالغين"),
-        (46, "اللغة الجنسية الفاحشة"),
-        (47, "المحتوى الصادم وبشع المنظر"),
-        (48, "معلومات خاطئة عن الانتخابات"),
-        (49, "معلومات ضارة مضللة"),
-        (50, "التزييف العميق والوسائط التركيبية"),
-        (51, "التفاعل الزائف"),
-        (52, "محتوى مزعج/Spam"),
-        (53, "المقامرة"),
-        (54, "الكحول والتبغ والمخدرات"),
-        (55, "الأسلحة النارية والأسلحة الخطرة"),
-        (56, "تجارة سلع/خدمات خاضعة لتنظيم"),
-        (57, "الغش والاحتيال"),
-        (58, "مشاركة المعلومات الشخصية"),
-        (59, "انتهاك الملكية الفكرية"),
-        (60, "محتوى مرتبط بعلامة تجارية غير معلن عنه"),
-        (61, "آخر (عام)"),
-        (62, "بلاغ خاص في الأعلانات"),
-        (63, "عشوائي عربي (NASR Random Arabic)"),
-    ]
-
-    for n, label in group_basic:
-        print(COLOR_BASIC_ITEM + f"{n:>2} | " + TEXT + label + Style.RESET_ALL)
-    print()
-
-
-# ================= تحميل جلسات من 1.txt ================= #
-file_path = "1.txt"
-if os.path.isfile(file_path):
-    with open(file_path, 'r', encoding="utf-8") as f:
-        sisn = [line.strip() for line in f if line.strip()]
-else:
-    sisn = []
-
-GREEN      = "\033[92m"
-RED        = "\033[91m"
-TURQUOISE  = "\033[38;5;45m"
-RESET      = "\033[0m"
-
-# ================= تعريف الأكواد كما هي ================= #
 q1  = sorted(['950111'])
 q2  = sorted(['950112'])
 q3  = sorted(['950113'])
@@ -480,3 +313,137 @@ else:
 
 print(TEXT + BAR + Style.RESET_ALL)
 print(TEXT + "Report code list (sdsd) is ready. Continue to your main sending module." + Style.RESET_ALL)
+tr,fa,er=0,0,0
+class ttsign:
+    def __init__(self, params: str, data: str, cookies: str) -> None:
+        self.params = params
+        self.data = data
+        self.cookies = cookies
+    def hash(self, data: str) -> str:
+        return str(hashlib.md5(data.encode()).hexdigest())
+    def get_base_string(self) -> str:
+        base_str = self.hash(self.params)
+        base_str = (
+            base_str + self.hash(self.data) if self.data else base_str + str("0" * 32)
+        )
+        base_str = (
+            base_str + self.hash(self.cookies)
+            if self.cookies
+            else base_str + str("0" * 32)
+        )
+        return base_str
+    def get_value(self) -> json:
+        return self.encrypt(self.get_base_string())
+    def encrypt(self, data: str) -> json:
+        unix = time.time()
+        len = 0x14
+        key = [
+
+            0xDF,
+            0x77,
+            0xB9,
+            0x40,
+            0xB9,
+            0x9B,
+            0x84,
+            0x83,
+            0xD1,
+            0xB9,
+            0xCB,
+            0xD1,
+            0xF7,
+            0xC2,
+            0xB9,
+            0x85,
+            0xC3,
+            0xD0,
+            0xFB,
+            0xC3,
+        ]
+        param_list = []
+        for i in range(0, 12, 4):
+            temp = data[8 * i : 8 * (i + 1)]
+            for j in range(4):
+                H = int(temp[j * 2 : (j + 1) * 2], 16)
+                param_list.append(H)
+        param_list.extend([0x0, 0x6, 0xB, 0x1C])
+        H = int(hex(int(unix)), 16)
+        param_list.append((H & 0xFF000000) >> 24)
+        param_list.append((H & 0x00FF0000) >> 16)
+        param_list.append((H & 0x0000FF00) >> 8)
+        param_list.append((H & 0x000000FF) >> 0)
+        eor_result_list = []
+        for A, B in zip(param_list, key):
+            eor_result_list.append(A ^ B)
+        for i in range(len):
+            C = self.reverse(eor_result_list[i])
+            D = eor_result_list[(i + 1) % len]
+            E = C ^ D
+            F = self.rbit_algorithm(E)
+            H = ((F ^ 0xFFFFFFFF) ^ len) & 0xFF
+            eor_result_list[i] = H
+        result = ""
+        for param in eor_result_list:
+            result += self.hex_string(param)
+        return {
+            "x-ss-req-ticket": str(int(unix * 1000)),
+            "x-khronos": str(int(unix)),
+            "x-gorgon": ("0404b0d30000" + result),
+        }
+
+    def rbit_algorithm(self, num):
+        result = ""
+        tmp_string = bin(num)[2:]
+        while len(tmp_string) < 8:
+            tmp_string = "0" + tmp_string
+        for i in range(0, 8):
+            result = result + tmp_string[7 - i]
+        return int(result, 2)
+
+    def hex_string(self, num):
+        tmp_string = hex(num)[2:]
+        if len(tmp_string) < 2:
+            tmp_string = "0" + tmp_string
+        return tmp_string
+
+    def reverse(self, num):
+        tmp_string = self.hex_string(num)
+        return int(tmp_string[1:] + tmp_string[:1], 16)
+P = '\x1b[1;97m'
+B = '\x1b[1;94m'
+O = '\x1b[1;96m'
+Z = "\033[1;30m"
+X = '\033[1;33m' 
+F = '\033[2;32m'
+Z = '\033[1;31m' 
+L = "\033[1;95m"  
+C = '\033[2;35m' 
+A = '\033[2;39m' 
+P = "\x1b[38;5;231m" 
+J = "\x1b[38;5;208m" 
+J1='\x1b[38;5;202m'
+J2='\x1b[38;5;203m' 
+J21='\x1b[38;5;204m'
+J22='\x1b[38;5;209m'
+F1='\x1b[38;5;76m'
+C1='\x1b[38;5;120m'
+P1='\x1b[38;5;150m'
+P2='\x1b[38;5;190m'
+def clear():
+            import os
+from termcolor import colored
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
+print(colored("[3]  أبدء البلاغ", "cyan"))
+Get_aobsh = "3"
+print(colored(f"تم اختيار رقم {Get_aobsh} تلقائياً ✅", "green"))
+clear()
+if Get_aobsh in '3':
+ import requests
+import os
+import threading
+import time
+import json
+import sys
+import re
+import datetime
